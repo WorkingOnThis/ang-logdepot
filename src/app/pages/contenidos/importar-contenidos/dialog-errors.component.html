@@ -1,0 +1,30 @@
+<h1 mat-dialog-title align="center">Listado de errores</h1>
+<hr class="mt-1 mb-1">
+<div mat-dialog-content class="text-center" style="padding-left: 10px; padding-right: 10px;">
+    
+    <div *ngIf="data.length === 0">
+        <br>
+        No hay errores en la tabla.
+        <br>
+        <br>
+    </div>
+
+    <div *ngFor="let info of data">
+
+            Campo: {{ info.tipo }} <br> 
+            Cantidad de erroneos: {{ info.cantidad }} <br>
+            Error: 
+            <span *ngIf="info.error == 'No se encuentra en base de datos'" class="dot"></span>
+            <label *ngIf="info.error == 'Campo requerido'" class="label label-danger">Requerido</label>
+            <span *ngIf="info.error == 'Error en el formato'" class="outer"><span class="inner">00/00/00</span></span>
+            {{ info.error }}
+            <hr class="mt-1 mb-1">
+
+    </div>
+
+
+</div>
+<div mat-dialog-actions align="center" class="mt-2">
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    <!-- <button mat-button (click)="prueba()" mat-dialog-close>Ok</button> -->
+</div>

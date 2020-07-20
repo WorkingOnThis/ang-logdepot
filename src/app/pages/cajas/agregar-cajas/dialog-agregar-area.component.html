@@ -1,0 +1,82 @@
+<h4 class="box-title mb-0 titlesections p-3 pl-2" align="center">{{ nombre_empresa }}</h4>
+
+
+<div mat-dialog-content class="text-center">
+
+    <!-- <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Agregar area</h4> -->
+
+    <form [formGroup]="forma" class="form-horizontal form-material mt-3">
+
+        <div class="pt-3 pb-4">
+
+                <div class="form-group row text-center" style="padding-left: 5%; padding-right: 5%; margin-bottom: 0px !important;">
+
+                    <!-- <label class="col-5 col-md-4 form-label"><strong>Area: </strong></label>
+                    <input formControlName="area" name="area" class="form-control col-7 col-md-8" type="text"> -->
+
+                    <mat-form-field class="col-12 form-label">
+                        <input [formControl]="area_fc" matInput placeholder="Area" type="text" class="text-center" autocomplete="off">
+                        <mat-error *ngIf="area_fc.invalid" class="text-center">{{getRequiredErrorMessage('area')}}</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="form-group row text-center" style="padding-left: 5%; padding-right: 5%;">
+
+                    <div class="col-12 input-group mt-2"  style="padding-left: 5%; padding-right: 5%;" formArrayName="tipos" *ngFor="let tipo of forma.get('tipos')['controls']; let i = index">
+                        <!-- <label class="col-5 col-md-4 form-label"><strong>Tipo de documento: </strong></label>
+                        <input formControlName="tipo" name="tipo" class="form-control col-7 col-md-8" [formControlName]="i" type="text"> -->
+
+                        <mat-form-field class="col-10" style="padding-left: 0px;">
+                            <input formControlName="tipos" matInput placeholder="Tipos de documento" class="text-center" type="text" [formControlName]="i" autocomplete="off">
+                            <mat-error *ngIf="this.forma.controls.tipos.controls[i].errors" class="text-center">Campo requerido</mat-error>
+                        </mat-form-field>
+
+
+                        <button class="btn btn-danger" (click)="eliminartipos( i );" style="height: 45px;"><i class="fas fa-trash"></i></button>
+                        <!-- <button class="btn btn-danger" (click)="errores(i);" style="height: 45px;"><i class="fas fa-trash"></i></button> -->
+                    </div>
+
+                </div>
+                <div class="col-xs-12 text-center">
+
+                    <button type="button" class="btn btn-danger" (click)="agregartipos()">Tipo de documento <i class="fas fa-plus"></i></button>
+
+                </div>
+
+        </div>
+    </form>
+
+</div>
+<!-- <div mat-dialog-actions align="center" class="mt-2 pb-3">
+    
+        <button mat-flat-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
+
+        <button *ngIf="!addsectionspinner" [disabled]="forma.invalid || forma.controls.id_codigo.status == 'PENDING'" mat-flat-button color="primary" class="mr-2" (click)="guardarArea()">
+            Registrar
+        </button>
+
+        <button *ngIf="addsectionspinner" mat-flat-button color="primary" class="mr-2">
+            Registrar &nbsp;
+            <i class="fas fa-circle-notch fa-spin" style="margin-bottom:2px;"></i>
+        </button>
+        
+
+</div> -->
+<hr>
+<div class="row mt-2">
+    <div class="col-6">
+        <button mat-flat-button color="primary" (click)="onNoClick()" cdkFocusInitial>
+            Cancelar
+        </button>
+    </div>
+    <div class="col-6 pull-right">
+        <button *ngIf="!addsectionspinner" style="float: right;" [disabled]="forma.invalid" mat-flat-button color="primary" (click)="guardarArea()">
+            Registrar
+        </button>
+        <button *ngIf="addsectionspinner" style="float: right;" mat-flat-button color="primary">
+            Registrar &nbsp;
+            <i class="fas fa-circle-notch fa-spin" style="margin-bottom:2px;"></i>
+        </button>
+    </div>
+</div>

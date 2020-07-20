@@ -1,0 +1,179 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body shadowgral">
+                <mat-tab-group animationDuration="0ms" mat-stretch-tabs #matgroup>
+                    <mat-tab label="General">
+                    
+                        <form [formGroup]="general">
+
+                            <div class="row mr-4 ml-4 justify-content-center ">
+                                <div class="col-sm-10 col-md-9 col-lg-8 col-xl-6 estanteSinSeleccionar text-center p-4 mt-4">
+                                    Los campos marcados con asterisco son obligatorios.
+                                </div>
+                            </div>        
+
+                            <div class="row mr-4 ml-4 mt-2 justify-content-left">
+                                
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="nombre_fc" matInput placeholder="Nombre" type="text" min="0" step="1" autocomplete="off">
+                                    <mat-error *ngIf="nombre_fc.invalid" class="text-center">{{getRequiredErrorMessage('nombre')}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="razon_social_fc" matInput placeholder="Razón social" type="text" autocomplete="off">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="direccion_fc" matInput placeholder="Dirección" type="text" autocomplete="off">
+                                    <mat-error *ngIf="direccion_fc.invalid" class="text-center">{{getRequiredErrorMessage('direccion')}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="cod_localidad_fc" matInput placeholder="Cod. localidad" type="number" autocomplete="off">
+                                </mat-form-field>
+
+                            </div>
+
+                            <div class="row mr-4 ml-4 mt-2 justify-content-left">
+
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="telefono_fc" matInput placeholder="Teléfono" type="number" autocomplete="off">
+                                    <mat-error *ngIf="telefono_fc.invalid" class="text-center">{{getRequiredErrorMessage('telefono')}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="mail_fc" matInput placeholder="E-mail" type="email" autocomplete="off">
+                                    <mat-error *ngIf="mail_fc.invalid" class="text-center">{{getRequiredErrorMessage('mail')}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="sitioWeb_fc" matInput placeholder="Sitio web" type="text" autocomplete="off">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                    <input [formControl]="responsable_fc" matInput placeholder="Responsable" type="text" autocomplete="off">
+                                    <mat-error *ngIf="responsable_fc.invalid" class="text-center">{{getRequiredErrorMessage('responsable')}}</mat-error>
+                                </mat-form-field>
+
+                            </div>
+                        </form>
+
+                        <div class="row mr-4 ml-4 mt-5 mb-2 justify-content-left">
+
+                            <div class="col-12 mt-4">
+                                <button class="ml-1 pull-right" mat-flat-button color="primary" (click)="selectNext(matgroup)" [disabled]="general.invalid || general.status == 'PENDING'">Siguiente <i class="fas fa-chevron-right"></i></button>
+                            </div>
+
+                            <!-- <div class="col-12 mt-4">
+                                <button class="ml-1 pull-right" mat-flat-button color="primary" (click)="prueba()" >Siguiente <i class="fas fa-chevron-right"></i></button>
+                            </div> -->
+
+                        </div>
+
+                    </mat-tab>
+                    <mat-tab label="Jurídica" [disabled]="general.invalid || general.status == 'PENDING'">
+
+                    <form [formGroup]="juridica">
+                    
+                        <div class="row mr-4 ml-4 justify-content-center ">
+                            <div class="col-sm-10 col-md-9 col-lg-8 col-xl-6 estanteSinSeleccionar text-center p-4 mt-4">
+                                Los campos marcados con asterisco son obligatorios.
+                            </div>
+                        </div>        
+
+                        <div class="row mr-4 ml-4 mt-2 justify-content-left">
+
+                            <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="cuit_fc" matInput placeholder="CUIT" type="number" min="0" step="1" autocomplete="off">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="condicion_iva_fc" matInput placeholder="Condición IVA" type="text" autocomplete="off">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="dgr_fc" matInput placeholder="DGR" type="text" autocomplete="off">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="municipalidad_fc" matInput placeholder="Municipalidad" type="text" autocomplete="off">
+                            </mat-form-field>
+
+                        </div>
+                    </form>                    
+
+                        <div class="row mr-4 ml-4 mt-5 mb-2 justify-content-left">
+
+                            <div class="col-12 mt-4">
+                                <button class="ml-1 pull-left" mat-flat-button color="primary" (click)="selectPrev(matgroup)"><i class="fas fa-chevron-left"></i> Anterior</button>
+                                <button class="mr-1 pull-right" mat-flat-button color="primary" (click)="selectNext(matgroup)">Siguiente <i class="fas fa-chevron-right"></i></button>
+                            </div>
+
+                        </div>
+
+                    </mat-tab>
+
+                    <mat-tab label="Adicional" [disabled]="general.invalid || general.status == 'PENDING'">
+
+                    <form [formGroup]="contable">
+                    
+                        <div class="row mr-4 ml-4 justify-content-center ">
+                            <div class="col-sm-10 col-md-9 col-lg-8 col-xl-6 estanteSinSeleccionar text-center p-4 mt-4">
+                                Los campos marcados con asterisco son obligatorios.
+                            </div>
+                        </div>        
+
+                        <div class="row mr-4 ml-4 mt-2 justify-content-left">
+
+                            <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="tipo_factura_fc" matInput placeholder="Tipo de factura" type="text" autocomplete="off">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="forma_pago_fc" matInput placeholder="Forma de pago" type="text" autocomplete="off">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-6 col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="costo_caja_fc" matInput placeholder="Costo de caja" type="number" min="0" step="1" autocomplete="off">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-6 col-sm-6 col-md-3 mt-4">
+                                <input [formControl]="costo_mensual_fc" matInput placeholder="Costo mensual" type="number" min="0" step="1" autocomplete="off">
+                            </mat-form-field>
+
+                        </div>
+                        
+                        <div class="row mr-4 ml-4 mt-2 justify-content-left">
+
+                            <!-- <mat-form-field class="col-sm-12 col-md-4 mt-4">
+                                <input [formControl]="direccion_envio_fc" matInput placeholder="Dirección de envío" type="text" autocomplete="off">
+                            </mat-form-field> -->
+
+                            <mat-form-field class="col-sm-12 col-md-6 mt-4">
+                                <input [formControl]="observaciones_fc" matInput placeholder="Observaciones" type="text" autocomplete="off">
+                            </mat-form-field>
+
+                        </div>
+
+                    </form>
+                    
+                        <div class="row mr-4 ml-4 mt-5 mb-2 justify-content-left">
+
+                            <div class="col-12 mt-4">
+                                <button class="ml-1 pull-left" mat-flat-button color="primary" (click)="selectPrev(matgroup)"><i class="fas fa-chevron-left"></i> Anterior</button>
+                                <button *ngIf="!addregisterspinner" class="ml-1 pull-right" mat-flat-button color="primary" (click)="registrarEmpresa()">Registrar</button>
+                                <button *ngIf="addregisterspinner" class="ml-1 pull-right" mat-flat-button color="primary">
+                                    Registrar &nbsp;
+                                    <i class="fas fa-circle-notch fa-spin" style="margin-bottom:2px;"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>

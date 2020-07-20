@@ -1,0 +1,113 @@
+<h1 mat-dialog-title align="center">Lector de código</h1>
+<div mat-dialog-content>
+
+    <div class="scanner-shell" [hidden]="!hasDevices">
+
+        <!-- <header>
+            <select (change)="onDeviceSelectChange($event.target.value)">
+                <option value="" [selected]="!currentDevice">No Device Selected</option>
+                <option *ngFor="let device of availableDevices" [value]="device.deviceId" [selected]="currentDevice && device.deviceId === currentDevice.deviceId">{{ device.label }}</option>
+            </select>
+        </header> -->
+
+
+        <mat-form-field class="col-lg-12">
+            <mat-label>Cámaras</mat-label>
+            <mat-select (selectionChange)="onDeviceSelectChange($event.value)">
+                <!-- <mat-option value="entrega">Entrega</mat-option> -->
+                <mat-option value="">Seleccionar cámara</mat-option>
+                <mat-option *ngFor="let device of availableDevices" [value]="device.deviceId">{{ device.label }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    
+        <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"></zxing-scanner>
+    
+        <section class="results text-center" *ngIf="qrResultString">
+            <!-- <small>Result</small> -->
+            <strong>{{ qrResultString }}</strong>
+        </section>
+    
+    </div>
+    
+    <ng-container *ngIf="hasPermission === undefined">
+    
+        <h2>Esperando por permisos.</h2>
+    
+        <blockquote>
+            Si tu dispositivo no tiene camaras, no se solicitarán permisos.
+            <!-- If your device does not has cameras, no permissions will be asked. -->
+        </blockquote>
+    
+    </ng-container>
+    
+    <ng-container *ngIf="hasPermission === false">
+    
+        <h2>Denegaste los permisos de camara. Sin ellos no se podrá escanear. 😪</h2>
+        <!-- <h2>You denied the camera permission, we can't scan anything without it. 😪</h2> -->
+    
+    </ng-container>
+    
+    <ng-container *ngIf="hasDevices === undefined">
+    
+        <!-- <h2>Couldn't check for devices.</h2> -->
+        <h2>No se pudieron comprobar los dispositivos.</h2>
+
+    
+        <blockquote>
+            Esto puede ser causado por algún error de seguridad.
+            <!-- This may be caused by some security error. -->
+        </blockquote>
+    
+    </ng-container>
+    
+    <ng-container *ngIf="hasDevices === false">
+    
+        <!-- <h2>No devices were found.</h2> -->
+        <h2>No se encontraron cámaras.</h2>
+    
+        <blockquote>
+            Es posible que su dispositivo no tenga cámaras incorporadas.
+            <!-- I believe your device has no media devices attached to. -->
+        </blockquote>
+    
+    </ng-container>
+    
+    <footer *ngIf="estado_escaner">
+        <p class="text-center">Estado del lector</p>
+
+        <p>{{ stateToEmoji(hasDevices) }} Cámaras</p>
+
+        <p>{{ stateToEmoji(hasPermission) }} Permisos</p>
+
+        <!-- <table class="table-scanner-state">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ stateToEmoji(hasDevices) }}</td>
+                    <td>Devices</td>
+                </tr>
+                <tr>
+                    <td>{{ stateToEmoji(hasPermission) }}</td>
+                    <td>Permissions</td>
+                </tr>
+            </tbody>
+        </table> -->
+        <!-- <p class="ng-version">Angular version: {{ ngVersion }}</p> -->
+    </footer>
+
+</div>
+
+<div mat-dialog-actions align="center" class="mt-2">
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
+    <button mat-button (click)="state()">Estado</button>
+    <button mat-button [mat-dialog-close]="data.codigo" [disabled]="noTieneCodigo">Ok</button>
+    <!-- <div>
+        <button *ngIf="!data.btnVerFirma" mat-button (click)="eliminarFirma()">Aceptar</button>
+    </div> -->
+</div>

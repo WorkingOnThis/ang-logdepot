@@ -1,0 +1,17 @@
+<h1 mat-dialog-title align="center">Informacion de las acciones</h1>
+<div mat-dialog-content class="text-center" style="padding-left: 10px; padding-right: 10px;">
+
+    <br>
+    <div *ngFor="let info of data">
+        {{ info.mensaje }}
+        <i *ngIf="info.tipo == 'error'" class="fas fa-times" style="color: red;"></i>
+        <i *ngIf="info.tipo == 'exito'" class="fas fa-check" style="color: green;"></i>
+        <br><br>
+    </div>
+
+
+</div>
+<div mat-dialog-actions align="center" class="mt-2">
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    <!-- <button mat-button (click)="prueba()" mat-dialog-close>Ok</button> -->
+</div>

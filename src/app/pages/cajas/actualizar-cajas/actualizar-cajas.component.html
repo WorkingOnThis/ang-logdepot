@@ -1,0 +1,365 @@
+<div class="row animated fadeIn">
+
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <form [formGroup]="forma">
+                    <h4 class="box-title mb-0 titlesections p-2 puntero" align="left" data-toggle="collapse" href="#form_registro">
+                        <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon></button> Información de registro
+                        <button mat-raised-button (click)="onEvent($event)" class="addbutton mr-1 pull-right btnh4" [matMenuTriggerFor]="menu"><mat-icon style="font-size: 22px;">more_vert</mat-icon></button>
+                        <mat-menu #menu="matMenu">
+                            <!-- <button mat-menu-item (click)="selectIntercambio()">Selección de intercambio</button> -->
+                            <button mat-menu-item (click)="btnAgregarFContenido()"><mat-icon style="font-size: 22px;">playlist_add</mat-icon> Agregar contenido</button>
+                            <!-- <button mat-menu-item><mat-icon style="font-size: 22px;">keyboard_arrow_up</mat-icon> Reducir formulario</button> -->
+
+
+                        </mat-menu>
+                    </h4>
+                    <div id="form_registro" class="collapse show">
+
+                        <div class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                            <mat-form-field class="col-10 mt-4 pr-3 pl-0">
+                                <input matInput [ngModel]="cajaSelec.id_codigo" formControlName="id_codigo" name="id_codigo" placeholder="Código" type="text" autocomplete="off" class="text-center">
+                            </mat-form-field>
+
+                            <div class="col-1 pl-0" style="margin-top: 35px;">
+                                <button mat-stroked-button color="primary" (click)="openDialogCodigo()" style="font-size: 19px; min-width: 34px; max-height: 36px; padding-right: 8px; padding-left: 8px; border-color: #757575;"><i class="fas fa-vector-square"></i></button>
+                            </div>
+                            
+                            <div class="col-11 text-center" *ngIf="forma.controls.id_codigo.errors && forma.controls.id_codigo.touched">
+                                <div *ngIf="forma.controls.id_codigo.errors.required" class="alerta text-danger">
+                                    Este campo es obligatorio.
+                                </div>
+                            </div>
+
+                            <div class="col-11 text-center" *ngIf="forma.controls.id_codigo.errors && forma.controls.id_codigo.touched">                            
+                                <div *ngIf="forma.controls.id_codigo.errors.existLabel" class="alerta text-danger">
+                                    Código incorrecto.
+                                </div>
+                            </div>
+
+                            <div class="col-11 text-center" *ngIf="forma.controls.id_codigo.errors && forma.controls.id_codigo.touched">                            
+                                <div *ngIf="forma.controls.id_codigo.errors.busyLabel" class="alerta text-danger">
+                                    Este código ya ha sido tomado.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                            <mat-form-field class="col-6">
+                                <input matInput [value]="cajaSelec.numero_caja" name="codCaja" placeholder="Nº de caja" type="text" [disabled]="true" autocomplete="off" class="text-center">
+                                
+                                <mat-error *ngIf="forma.controls.codCaja.errors && forma.controls.codCaja.touched" class="text-center">
+                                    <div *ngIf="forma.controls.codCaja.errors.required" class="alerta text-danger">
+                                        Campo obligatorio.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- <mat-form-field class="col-12">
+                                <input matInput [value]="posicionString" name="codCaja" placeholder="Ubicación" type="text" [disabled]="true" autocomplete="off" class="text-center">
+                            </mat-form-field> -->
+
+                            <mat-form-field class="col-6">
+                                <mat-select [ngModel]="cajaSelec.id_tipo_caja" formControlName="id_tipocaja" (selectionChange)="cargarTipoCaja( $event.value );" placeholder="Tipo de caja" class="text-center">
+                                    <mat-option *ngFor="let tipocaja of tiposcaja" [value]="tipocaja._id">{{ tipocaja.nombre }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div *ngIf="tipo_caja == '1fxfv72gcjr711f9h' " class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                            <mat-form-field class="col-12">
+                                <input matInput [value]="cajaSelec.precinto" formControlName="precinto" name="precinto" placeholder="Precinto" type="text" [disabled]="true" autocomplete="off" class="text-center">
+                            </mat-form-field>
+
+                            <div class="col-9 text-center" *ngIf="forma.controls.precinto.errors && forma.controls.precinto.touched">
+                                <div *ngIf="forma.controls.precinto.errors.required" class="alerta text-danger">
+                                    Este campo es obligatorio.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                            <mat-form-field class="col-12">
+                                <mat-select [ngModel]="cajaSelec.id_empresa" formControlName="id_empresa" (selectionChange)="cargarSecciones( $event.value );" placeholder="Empresa" class="text-center">
+                                    <mat-option *ngFor="let empresa of empresas" [value]="empresa._id">{{ empresa.nombre }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <div class="col-9 text-center" *ngIf="forma.controls.id_empresa.errors && forma.controls.id_empresa.touched">
+                                <div *ngIf="forma.controls.id_empresa.errors.required" class="alerta text-danger">
+                                    Este campo es obligatorio.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="!mostrarEstante" class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                            <mat-form-field class="col-12">
+                                <input matInput [value]="posicionString" name="codCaja" placeholder="Ubicación" type="text" [disabled]="true" autocomplete="off" class="text-center">
+                            </mat-form-field>
+
+                        </div>
+
+                        <div *ngIf="mostrarEstante" class="form-group row mr-3 ml-3 mt-2 mb-0 justify-content-center">
+
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Ubicación" type="text" [disabled]="true" autocomplete="off" class="text-center" value="Sin asignar">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-12" [hidden]="true">
+                                <mat-select formControlName="id_deposito" (selectionChange)="cambioDeposito( $event.value );" [(ngModel)]="depositoSeleccionado" [disabled]="true" placeholder="Deposito" class="text-center">
+                                    <mat-option value="Napolitanos">Napolitanos</mat-option>
+                                    <mat-option value="Napolitanos 2">Napolitanos 2</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div *ngIf="mostrarEstante" class="form-group row mr-3 ml-3 justify-content-center">
+
+                            <mat-form-field class="col-6 col-sm-4 mt-4" [hidden]="true">
+                                <mat-select formControlName="id_estante" (selectionChange)="cambioEstante( $event.value )" [(ngModel)]="estanteSeleccionado" [disabled]="true" placeholder="Estante" class="text-center">
+                                    <mat-option *ngFor="let estante of estantes" [value]="estante.nombre">{{ estante.nombre }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <!-- [ngModelOptions]="{standalone: true}" esto va despues del ngmodel -->
+                            <mat-form-field class="col-6 col-sm-4 mt-4" [hidden]="true">
+                                <mat-select formControlName="id_fila" (selectionChange)="cambioPosicion( $event.value )" [(ngModel)]="posicionSeleccionado" [disabled]="true" placeholder="Posicion" class="text-center">
+                                    <mat-option *ngFor="let pos of posiciones" [value]="pos.posicion">{{ pos.posicion }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-12 col-sm-4 mt-4" [hidden]="true">
+                                <mat-select formControlName="id_posicion" [disabled]="true" placeholder="Lugar" class="text-center">
+                                    <mat-option *ngFor="let lugar of lugares" [value]="lugar._id">{{ lugar.nombre | nombreLugar:'-':2 }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <!-- <div class="col-9 text-center" *ngIf="forma.controls.id_posicion.errors && forma.controls.id_posicion.touched">
+                                <div *ngIf="forma.controls.id_posicion.errors.required" class="alerta text-danger">
+                                    Este campo es obligatorio.
+                                </div>
+                            </div> -->
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row mr-3 ml-3 justify-content-center">
+                            <div class="col-12 justify-content-center">
+                                <button class="btn btn-info botonaguardar pull-left" type="button" [routerLink]="['/cajas/listar-cajas']">Cancelar</button>
+                                <button *ngIf="btnActualizar" class="btn btn-info botonaguardar pull-right" type="button" [disabled]="forma.invalid || forma.controls.id_codigo.status == 'PENDING'" (click)="submitForm()">Actualizar</button>
+                                <button *ngIf="!btnActualizar" class="btn btn-info botonaguardar pull-right" type="button" [disabled]=true>Actualizar <i class="fas fa-spin fa-sync-alt"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card" [ngStyle]="{display:agregarFContenido?'none':'block'}">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-2 puntero" align="left" data-toggle="collapse" href="#form_generar">
+                    <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon></button> Contenido a generar
+                    <button mat-raised-button (click)="onEvent($event); btnAgregarFContenido()" class="addbutton mr-1 pull-right btnh4"><mat-icon style="font-size: 22px;">close</mat-icon></button>
+                </h4>
+
+                <div id="form_generar" class="collapse show">
+                    <form [formGroup]="contenido">
+
+                        <div class="form-group row text-center mr-3 ml-3 mt-2" style="margin-bottom: 0px">
+
+                            <mat-form-field class="col-12 mt-3 mb-2">
+                                <input matInput formControlName="txt_contenido" name="txt_contenido" placeholder="Contenido" type="text" autocomplete="off" class="text-center">
+                                <mat-error *ngIf="contenido.controls.txt_contenido.errors && contenido.controls.txt_contenido.touched" class="text-center">
+                                    <div *ngIf="contenido.controls.txt_contenido.errors.required" class="alerta text-danger">
+                                        Campo obligatorio.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- <div class="col-9 text-center" *ngIf="forma.controls.txt_contenido.errors && forma.controls.txt_contenido.touched">
+                                <div *ngIf="forma.controls.txt_contenido.errors.required" class="alerta text-danger">
+                                    Este campo es obligatorio.
+                                </div>
+                            </div> -->
+
+                            <mat-form-field class="col-6">
+                                <mat-select formControlName="id_area" name="id_area" (selectionChange)="cargarTipos( $event.value )" placeholder="Area" class="text-center">
+                                    <mat-option *ngFor="let area of areasola" [value]="area._id">{{ area.nombre }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-6">
+                                <mat-select formControlName="id_tipo" name="id_tipo" placeholder="Tipo" class="text-center">
+                                    <mat-option *ngFor="let tipo of tipoSoloSelected" [value]="tipo._id">{{ tipo.nombre }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="form-group row text-center ml-0 mr-0" style="margin-bottom: 0px;">
+
+                            <div class="row text-center mr-3 ml-3">
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput class="text-center" formControlName="desde_n" placeholder="Desde Nº" type="number">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput class="text-center" formControlName="hasta_n" placeholder="Hasta Nº" type="number">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput class="text-center" formControlName="desde_letra" placeholder="Desde letra" type="text">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput class="text-center" formControlName="hasta_letra" placeholder="Hasta letra" type="text">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6">
+                                    <input class="text-center" matInput [matDatepicker]="picker1" placeholder="Desde fecha" formControlName="desde_fecha">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6">
+                                    <input class="text-center" matInput [matDatepicker]="picker2" placeholder="Hasta fecha" formControlName="hasta_fecha">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row text-center mr-3 ml-3">
+
+                            <mat-form-field class="col-12">
+                                <input matInput formControlName="observacion" placeholder="Observación" type="text">
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="col-xs-12 text-center">
+
+                            <button type="button" class="btn btn-danger botonagregar" (click)="agregarContenido()">Agregar contenido</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body shadowgral pb-4" align="center">
+                <h4 class="box-title mb-0 titlesections p-2 puntero" align="center" data-toggle="collapse" href="#form_contenido">
+                    <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon>
+                    </button> Contenido actual
+
+                </h4>
+
+                <div id="form_contenido" class="collapse show">
+                    <div class="col-9 text-center mt-5 mb-4" *ngIf="contenidoVistaArray.length == 0">
+
+                        Sin contenido.
+
+                    </div>
+
+                    <div class="row text-center">
+                        <div class="col-lg-12 pl-3 pr-3 pt-3" *ngFor="let cont of contenidoVistaArray; let j = index">
+                            <div class="card-body shadowgral">
+
+                                <a href="#List-{{ j }}" class="p-3" data-toggle="collapse">{{ cont.txt_contenido }}</a>
+
+                                <div id="List-{{ j }}" class="collapse">
+
+                                    <hr>
+
+                                    <div class="form-group row text-center mr-3 ml-3 mt-2" style="margin-bottom: 0px">
+
+                                        <mat-form-field class="col-6">
+                                            <input matInput [style.color]="'red'" [disabled]="true" placeholder="Area" type="text" autocomplete="off" class="text-center" [ngModel]="cont.nombre_area">
+                                        </mat-form-field>
+
+                                        <mat-form-field class="col-6">
+                                            <input matInput [style.color]="'red'" [disabled]="true" placeholder="Tipo" type="text" autocomplete="off" class="text-center" [ngModel]="cont.nombre_tipo">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    <div class="form-group row text-center ml-0 mr-0" style="margin-bottom: 0px;">
+
+                                        <div class="row text-center mr-3 ml-3">
+
+                                            <mat-form-field class="col-6 col-sm-3">
+                                                <input matInput [style.color]="'red'" [disabled]="true" class="text-center" placeholder="Desde Nº" type="number" [ngModel]="cont.desde_n">
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-6 col-sm-3">
+                                                <input matInput [style.color]="'red'" [disabled]="true" class="text-center" placeholder="Hasta Nº" type="number" [ngModel]="cont.hasta_n">
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-6 col-sm-3">
+                                                <input matInput [style.color]="'red'" [disabled]="true" class="text-center" placeholder="Desde letra" type="text" [ngModel]="cont.desde_letra">
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-6 col-sm-3">
+                                                <input matInput [style.color]="'red'" [disabled]="true" class="text-center" placeholder="Hasta letra" type="text" [ngModel]="cont.hasta_letra">
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-6">
+                                                <input class="text-center" matInput [style.color]="'red'" [disabled]="true" [matDatepicker]="picker3" placeholder="Desde fecha" [ngModel]="cont.desde_fecha">
+                                                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker3></mat-datepicker>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-6">
+                                                <input class="text-center" matInput [style.color]="'red'" [disabled]="true" [matDatepicker]="picker4" placeholder="Hasta fecha" [ngModel]="cont.hasta_fecha">
+                                                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker4></mat-datepicker>
+                                            </mat-form-field>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row text-center mr-3 ml-3 mt-2" style="margin-bottom: 0px">
+
+                                        <mat-form-field class="col-12">
+                                            <input matInput placeholder="Observación" [style.color]="'red'" [disabled]="true" type="text" [ngModel]="cont.observacion">
+                                        </mat-form-field>
+                                        <div class="col-12 text-center">
+                                            <swal #deleted text="¿Desea eliminar este contenido?" type="warning" showCancelButton="true" cancelButtonText="Cancelar" (confirm)="eliminarContenido( cont._id, j )">
+                                            </swal>
+                                            <button type="button" class="btn btn-danger text-center" [swal]="deleted">Eliminar contenido <i class="fas fa-trash-alt" ></i></button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

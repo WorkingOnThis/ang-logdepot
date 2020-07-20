@@ -1,0 +1,33 @@
+<div class="fondo-negro animated fadeIn" tabindex="-1" role="dialog" [ngClass]="_modalDepositoService.oculto">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div style="margin: 15px 15px;">
+                <button type="button" (click)="cerrarModal()" class="close" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+
+            <div class="modal-body" id="notificacion" style="text-align: center;">
+
+                <div class="row">
+                    <div class="col-4">
+
+                        <!-- {{_modalDepositoService.id_caja}} -->
+                    </div>
+                </div>
+
+                <br><br></div>
+
+            <div class="boton-aceptar-modal row">
+                <div class="col-6" justify-content-center>
+                    <button type="button" class="btn btn-info" (click)="cerrarModal()" justify-content-left> Cancelar </button>
+                </div>
+                <div class="col-6" justify-content-left>
+                    <button type="button" class="btn btn-danger" (click)="cerrarModal()" justify-content-right> Guardar </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

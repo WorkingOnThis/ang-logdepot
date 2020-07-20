@@ -1,0 +1,216 @@
+<div class="row animated fadeIn">
+
+    <div class="col-lg-4" [ngStyle]="{display:agregarEstante?'none':'block'}">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-2" align="left">
+                    <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon></button> Agregar
+                    <button mat-raised-button class="addbutton mr-1 pull-right" style="line-height: 35px; min-width: 40px; padding: 0px; margin-top: 2px; color: white" data-toggle="collapse" href="#nueva_estanteria"><mat-icon style="font-size: 22px;">expand_more</mat-icon></button>
+                </h4>
+                <div id="nueva_estanteria" class="collapse show">
+                    <form [formGroup]="estante" class="form-horizontal">
+
+                        <div class="form-group row text-center mr-3 ml-3 mt-2">
+
+                            <mat-form-field class="col-12 mt-4">
+                                <mat-select formControlName="deposito" placeholder="Deposito" class="text-center">
+                                    <mat-option value="Napolitanos">Napolitanos</mat-option>
+                                    <mat-option value="Napolitanos 2">Napolitanos 2</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-12 mt-4">
+                                <input formControlName="nombre" matInput placeholder="Nombre" class="text-center" type="text">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-12 mt-4">
+                                <input formControlName="posicion" matInput placeholder="Posicion" class="text-center" type="number">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-12 mt-4">
+                                <input formControlName="filas" matInput placeholder="Filas" class="text-center" type="number">
+                            </mat-form-field>
+
+                            <mat-form-field class="col-12 mt-4">
+                                <input formControlName="columnas" matInput placeholder="Columnas" class="text-center" type="number">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row mr-3 ml-3 text-center">
+                            <div class="col-12 text-center">
+                                <button class="btn btn-info botonaguardar text-center" type="button" (click)="guardarEstante()">Generar estante</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" *ngIf="armar.length > 0" [ngStyle]="{display:agregarEstante?'block':'none'}">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3" align="left">
+                    Seleccionado
+                </h4>
+                <!-- <form [formGroup]="estante" class="form-horizontal  mt-3"> -->
+                <!-- <div *ngIf="cajita && cajaSelec != []"> -->
+                <div *ngIf="boxSelectA.length <= 0">
+                    <br><br><br>
+                    <span>No se han realizado selecciones</span>
+                    <br><br>
+                </div>
+                <div *ngIf="boxSelectA.length >= 0">
+                    <div class="row text-center center-block ml-2 mr-2 mt-3" style="overflow-x: auto">
+
+                        <div *ngFor="let index of boxSelectA; let j = index" class="center-block" style="float: none; margin: 0 auto;">
+                            <div class="row m-2 text-center" style="width: 272px; height: 85px;">
+
+                                <div *ngIf="boxSelectA[j] != 'vacio'">
+                                    <div class="espacio borde" [title]="boxSelectA[j].nombre" [style.background]="boxSelectA[j].color">
+                                        <span [ngClass]="(boxSelectA[j].prestamo == 1)?'circulo2':'circulo'">{{boxSelectA[j].nombre | nombreLugar:'-':2 }}
+                                        <button (click)="clearSelect( 'A', j )" mat-mini-fab id="x">
+                                            <mat-icon style="font-size: 18px !important; margin-bottom: 7px !important;">close</mat-icon>
+                                        </button>
+                                    </span>
+                                        <button *ngIf="boxSelectA[j].color == '#41ce5b'" mat-raised-button color="primary" class="btnVisualizarCaja" (click)="cargarCaja( boxSelectA[j]._id, boxSelectA[j].nombre );"><mat-icon style="font-size: 22px;">remove_red_eye</mat-icon></button>
+                                        <button *ngIf="boxSelectA[j].color != '#41ce5b'" mat-raised-button color="primary" class="btnVisualizarCaja" style="visibility: hidden">
+                                        <mat-icon style="font-size: 22px;">remove_red_eye</mat-icon>
+                                    </button>
+                                        <div class="oldcod">{{boxSelectA[j].nombre}}</div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="boxSelectA[j] == 'vacio'">
+                                    <div class="espacio borde">
+                                    </div>
+                                </div>
+
+                                <button mat-mini-fab class="movebutton mr-2 ml-2" (click)="rmSelectChange( j )" (mouseover)="rmSelectChangeBtn('mover', j )" (mouseout)="rmSelectChangeBtn('mout', j )">
+                                    <mat-icon id="btnChange{{ j }}" style="font-size: 22px;">compare_arrows</mat-icon>
+                                </button>
+
+                                <div *ngIf="boxSelectB[j] != 'vacio'">
+                                    <div class="espacio borde" [title]="boxSelectB[j].nombre" [style.background]="boxSelectB[j].color">
+                                        <span [ngClass]="(boxSelectB[j].prestamo == 1)?'circulo2':'circulo'">{{boxSelectB[j].nombre | nombreLugar:'-':2 }}
+                                        <button (click)="clearSelect( 'B', j )" mat-mini-fab id="x">
+                                            <mat-icon style="font-size: 18px; margin-bottom: 7px;">close</mat-icon>
+                                        </button>
+                                    </span>
+                                        <button *ngIf="boxSelectB[j].color == '#41ce5b'" mat-raised-button color="primary" class="btnVisualizarCaja" (click)="cargarCaja( boxSelectB[j]._id, boxSelectB[j].nombre );"><mat-icon style="font-size: 22px;">remove_red_eye</mat-icon></button>
+                                        <button *ngIf="boxSelectB[j].color != '#41ce5b'" mat-raised-button color="primary" class="btnVisualizarCaja" style="visibility: hidden"><mat-icon style="font-size: 22px;">remove_red_eye</mat-icon></button>
+                                        <div class="oldcod">{{boxSelectB[j].nombre}}</div>
+                                    </div>
+                                </div>
+                                <div *ngIf="boxSelectB[j] == 'vacio'">
+                                    <div class="espacio borde">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="boxSelectA.length > 0" class="row text-center">
+                        <div class="col-12 text-center mt-2">
+                            <mat-radio-group class="ml-3" [(ngModel)]="selected">
+                                <mat-radio-button color="warn" class="mr-3" value="CA">
+                                    Columna A
+                                </mat-radio-button>
+                                <mat-radio-button color="primary" value="CB">
+                                    Columna B
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 text-center">
+                        <div class="col-6 text-center">
+                            <button class="btn btn-danger text-center" [disabled]="boxSelectA.length <= 0" (click)="applyChanges()" type="button">Aplicar</button>
+                        </div>
+                        <div class="col-6 text-center">
+                            <button class="btn btn-danger text-center" type="button" (click)="cancelSelectChange()">Cancelar</button>
+                        </div>
+                    </div>
+                    <!-- <div class="row mr-3 ml-3 text-center">
+                        <div class="col-12 text-center">
+                            <br>
+                            <button class="btn btn-danger text-center" type="button" (click)="liberarLugar( cajaSelec[0]._id )">Liberar espacio</button>
+                        </div>
+                    </div> -->
+                </div>
+
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 center-block" style="float: none; margin: 0 auto;">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+
+                <h4 class="box-title mb-0 titlesections p-2" align="left">
+                    <button mat-mini-fab class="addbutton mr-2" (click)="btnAgregarEstante()">
+                        <mat-icon *ngIf="agregarEstante" style="font-size: 22px;">add</mat-icon>
+                        <mat-icon *ngIf="!agregarEstante" style="font-size: 22px;">remove</mat-icon>
+                    </button> Deposito
+                    <button mat-raised-button class="addbutton mr-1 pull-right" style="line-height: 35px; min-width: 40px; padding: 0px; margin-top: 2px; color: white" data-toggle="collapse" href="#estanteria"><mat-icon style="font-size: 22px;">expand_more</mat-icon></button>
+                </h4>
+
+                <div id="estanteria" class="collapse show">
+
+                    <mat-form-field class="col-lg-4 mt-4">
+                        <mat-select (selectionChange)="cambioDeposito( $event.value );" [(ngModel)]="depositoSeleccionado" placeholder="Deposito" class="text-center">
+                            <mat-option value="Napolitanos">Napolitanos</mat-option>
+                            <mat-option value="Napolitanos 2">Napolitanos 2</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-lg-4 mt-4">
+                        <mat-select (selectionChange)="cambioEstante( $event.value )" [(ngModel)]="estanteSeleccionado" placeholder="Nombre" class="text-center">
+                            <mat-option *ngFor="let estante of estantes" [value]="estante.nombre">{{ estante.nombre }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-lg-4 mt-4">
+                        <mat-select (selectionChange)="cambioPosicion( $event.value )" [(ngModel)]="posicionSeleccionado" placeholder="Posicion" class="text-center">
+                            <mat-option *ngFor="let pos of posiciones" [value]="pos.posicion">{{ pos.posicion }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="card" *ngIf="armar.length > 0">
+
+            <div class="card-body shadowgral" align="center" style="overflow-x:auto;">
+
+                <h4 class="box-title mb-0 titlesections p-2" align="left">
+                    <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon></button> {{ estanteSeleccionado }} - {{ posicionSeleccionado }}
+                    <button mat-raised-button class="addbutton mr-1 pull-right" style="line-height: 35px; min-width: 40px; padding: 0px; margin-top: 2px; color: white" [matMenuTriggerFor]="menu"><mat-icon style="font-size: 22px;">more_vert</mat-icon></button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="selectIntercambio()">Selección de intercambio</button>
+                        <!-- <button mat-menu-item>Item 2</button> -->
+                    </mat-menu>
+                </h4>
+
+                <div id="invisible" class="row text-center center-block ml-2 mr-2 mt-3" style="overflow-x: auto; margin: 25px">
+
+                    <div *ngFor="let item of armar.slice().reverse()" class="center-block" style="float: none; margin: 0 auto;">
+                        <div class="row m-2 text-center" style="width: 760px">
+                            <div *ngFor="let punto of item" class="espacio borde" [title]="punto.nombre" [style.background]="punto.color" (click)="addSelectChange( punto );">
+                                <button *ngIf="punto.color == '#41ce5b'" mat-raised-button color="primary" class="btnVisualizarCaja"><mat-icon style="font-size: 22px !important;">remove_red_eye</mat-icon></button>
+                                <span [ngClass]="(punto.prestamo == 1)?'circulo2':'circulo'">{{punto.nombre | nombreLugar:'-':2 }}</span>
+                                <div *ngIf="punto.color == '#41ce5b'" class="oldcod">{{punto.numero_caja}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 740px -->
+</div>

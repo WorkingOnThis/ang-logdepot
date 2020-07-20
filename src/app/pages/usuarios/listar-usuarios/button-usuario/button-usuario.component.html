@@ -1,0 +1,45 @@
+<!-- <button mat-raised-button color="primary" type="button" (click)="onClick($event)">{{label}}</button> -->
+
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+    <!-- <button mat-menu-item [routerLink]="['/usuarios/actualizar-usuario', params.node.data._id ]"> -->
+    <div *ngIf="params.node.data.fecha_baja == null">
+
+        <button mat-menu-item [routerLink]="['/usuarios/actualizar-usuario', params.node.data._id ]">
+          <mat-icon>exposure</mat-icon>
+          <span>Modificar &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </button>
+
+        <swal #anular text="¿Desea anular el usuario seleccionado?" type="warning" showCancelButton="true" cancelButtonText="Cancelar" (confirm)="anularUsuario( params.node.data._id, params.node.rowIndex );">
+        </swal>
+
+        <button [swal]="anular" mat-menu-item (click)="cerrarMenu();">
+          <mat-icon>block</mat-icon>
+          <span>Anular</span>
+        </button>
+
+    </div>
+    <div *ngIf="params.node.data.fecha_baja != null">
+
+        <button mat-menu-item (click)="infoAnulado( params.node.data );">
+            <mat-icon>info</mat-icon>
+            <span>Información &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </button>
+
+        <button mat-menu-item (click)="desanularUsuario( params.node.data._id, params.node.rowIndex );">
+          <mat-icon>restore</mat-icon>
+          <span>Reestablecer &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </button>
+
+        <!-- <swal #deleted text="¿Desea eliminar la caja seleccionada?" type="warning" showCancelButton="true" cancelButtonText="Cancelar" (confirm)="eliminarCaja( params.node.data._id, params.node.rowIndex );">
+        </swal>
+
+        <button [swal]="deleted" mat-menu-item (click)="cerrarMenu();">
+          <mat-icon>delete_forever</mat-icon>
+          <span>Eliminar</span>
+        </button> -->
+    </div>
+</mat-menu>

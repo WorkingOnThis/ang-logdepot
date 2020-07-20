@@ -1,0 +1,257 @@
+<div class="row animated fadeIn">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Datos del cliente</h4>
+                <div class="form-group row mr-3 ml-3 mt-2 justify-content-left">
+
+                    <!-- formControlName="id_codigo" -->
+                    <form [formGroup]="form_empresa">
+
+                        <mat-form-field class="col-md-6 col-lg-3 mt-4">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select [formControl]="empresa_nombre_fc" (selectionChange)="cambioEmpresa( $event.value )">
+                                <mat-option *ngFor="let empresa of empresas" [value]="empresa._id">{{ empresa.nombre }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="empresa_nombre_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_nombre')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-3 mt-4">
+                            <input type="text" [formControl]="empresa_razon_fc" [(ngModel)]="empresaSelec.razon_social" matInput placeholder="Razón social" autocomplete="off">
+                            <!-- <mat-error *ngIf="empresa_razon_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_razon')}}</mat-error> -->
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-4 mt-4">
+                            <input type="text" [formControl]="empresa_direccion_fc" [(ngModel)]="empresaSelec.direccion" matInput placeholder="Dirección" autocomplete="off">
+                            <mat-error *ngIf="empresa_direccion_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_direccion')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-2 mt-4">
+                            <input type="number" [formControl]="empresa_telefono_fc" [(ngModel)]="empresaSelec.telefono" matInput placeholder="Teléfono" autocomplete="off">
+                            <mat-error *ngIf="empresa_telefono_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_telefono')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-3 mt-4">
+                            <input type="text" [formControl]="empresa_responsable_fc" [(ngModel)]="empresaSelec.responsable" matInput placeholder="Responsable" autocomplete="off">
+                            <mat-error *ngIf="empresa_responsable_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_responsable')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-3 mt-4">
+                            <input type="email" [formControl]="empresa_email_fc" [(ngModel)]="empresaSelec.mail" matInput placeholder="E-Mail" autocomplete="off">
+                            <mat-error *ngIf="empresa_email_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_email')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-4 mt-4">
+                            <input type="text" [formControl]="empresa_envio_fc" [(ngModel)]="empresaSelec.direccion_envio" matInput placeholder="Dirección de envío" autocomplete="off">
+                            <mat-error *ngIf="empresa_envio_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_envio')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-2 mt-4">
+                            <input class="text-center" matInput [matDatepicker]="picker1" placeholder="Fecha" [formControl]="empresa_fecha_fc">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                            <mat-error *ngIf="empresa_fecha_fc.invalid" class="text-center">{{getRequiredErrorMessageForm2('empresa_fecha')}}</mat-error>
+                        </mat-form-field>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Cuerpo del recibo</h4>
+                <div class="form-group row mr-1 ml-1 mt-2 justify-content-center">
+                    <div class="titleborder col-lg-12 mt-2 pt-1 pb-3">
+                        <form [formGroup]="form_renglon">
+
+                            <mat-form-field class="col-lg-3 mt-3">
+                                <mat-label>Acción</mat-label>
+                                <mat-select [formControl]="accion_formControl" [(value)]="select_accion">
+                                    <mat-option value="entrega">Entrega</mat-option>
+                                    <mat-option value="retiro">Retiro</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="accion_formControl.invalid" class="text-center">{{getRequiredErrorMessage('accion')}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-lg-3 mt-3">
+                                <mat-label>Unidad</mat-label>
+                                <mat-select [formControl]="unidad_formControl" [(value)]="select_unidad">
+                                    <mat-option value="Caja">Caja</mat-option>
+                                    <mat-option value="Documento">Documento</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="unidad_formControl.invalid" class="text-center">{{getRequiredErrorMessage('unidad')}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-lg-3 mt-3">
+                                <input type="text" matInput [formControl]="codigo_formControl" placeholder="Etiqueta" [(ngModel)]="codigo" autocomplete="off">
+                                <mat-error *ngIf="codigo_formControl.invalid" class="text-center">{{getRequiredErrorMessage('codigo')}}</mat-error>
+                            </mat-form-field>
+
+                            <button type="button" class="mb-2" mat-flat-button color="primary" matTooltip="Obtener código" (click)="openDialogCodigo()"><i class="fas fa-camera"></i></button>
+                            <button type="button" class="ml-2 mb-2" mat-flat-button color="warn" matTooltip="Agregar renglón" (click)="agregarRenglon( codigo )"><i class="fas fa-plus-circle"></i></button>
+
+                        </form>
+                        <!-- <div class="col-lg-3 mt-3">
+
+                        </div> -->
+                    </div>
+
+                    <div *ngIf="array_entregas.length <= 0 && array_retiros.length <= 0" class="mt-5">
+                        <p>No hay renglones</p>
+                        <p *ngIf="renglones_validate" class="mat-error mat-form-field" style="font-size: 75%;">Se debe generar al menos un renglon</p>
+                    </div>
+
+                    <mat-list *ngIf="array_entregas.length > 0 || array_retiros.length > 0" class="col-lg-12 mt-4">
+
+                        <mat-list-item *ngIf="array_entregas.length > 0">Entrega</mat-list-item>
+                        <mat-divider *ngIf="array_entregas.length > 0" class="mb-2"></mat-divider>
+
+                        <div *ngFor="let renglones of array_entregas; let j = index">
+
+                            <div [ngClass]="renglones.estado" class="renglon text-right">
+
+                                <div class="unidad pull-left pl-3 pr-3 pt-2">
+                                    {{ renglones.select_unidad }}
+                                </div>
+                                <div class="codigoetiqueta pull-left pr-3 pl-3">
+                                    Cod.: {{ renglones.codigo }}
+                                </div>
+
+                                <button mat-icon-button color="primary">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button>
+
+                                <button mat-icon-button color="warn" (click)="eliminarRenglon( 'tipoEntrega', renglones.select_unidad , j )">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <mat-list-item *ngIf="array_retiros.length > 0">Retiro</mat-list-item>
+                        <mat-divider *ngIf="array_retiros.length > 0" class="mb-2"></mat-divider>
+
+                        <div *ngFor="let renglones of array_retiros; let j = index">
+
+                            <div [ngClass]="renglones.estado" class="renglon text-right">
+
+                                <div class="unidad pull-left pl-3 pr-3 pt-2">
+                                    {{ renglones.select_unidad }}
+                                </div>
+                                <div class="codigoetiqueta pull-left pr-3 pl-3">
+
+                                    Cod.: {{ renglones.codigo }}
+                                </div>
+
+                                <button mat-icon-button color="primary">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button>
+
+                                <button mat-icon-button color="warn" (click)="eliminarRenglon( 'tipoRetiro', renglones.select_unidad , j )">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <mat-divider *ngIf="array_entregas.length > 0 || array_retiros.length > 0" class="mb-2 mt-2"></mat-divider>
+                        <div class="row">
+                            <mat-list-item *ngIf="array_entregas.length > 0" class="col-lg-6 mt-3 " style="display: inline-block;">
+                                <div class="col-xs-12">
+                                    Total de entregas:
+                                </div>
+                                <div>
+                                    <div *ngIf="count_entregas_box > 0" class="codigoetiqueta pl-3 pr-3 pt-2 mr-1" [matBadge]="count_entregas_box" matBadgeOverlap="true" matBadgeColor="warn">
+                                        Cajas
+                                    </div>
+                                    <div *ngIf="count_entregas_doc > 0" class="codigoetiqueta pl-3 pr-3 pt-2" [matBadge]="count_entregas_doc" matBadgeOverlap="true" matBadgeColor="warn">
+                                        Documentos
+                                    </div>
+                                </div>
+                            </mat-list-item>
+                            <mat-list-item *ngIf="array_retiros.length > 0" class="col-lg-6 mt-3 justify-content-center" style="display: inline-block;">
+                                <div class="col-xs-12">
+                                    Total de retiros:
+                                </div>
+                                <div>
+                                    <div *ngIf="count_retiros_box > 0" class="codigoetiqueta pl-3 pr-3 pt-2 mr-1" [matBadge]="count_retiros_box" matBadgeOverlap="true" matBadgeColor="warn">
+                                        Cajas
+                                    </div>
+                                    <div *ngIf="count_retiros_doc > 0" class="codigoetiqueta pl-3 pr-3 pt-2" [matBadge]="count_retiros_doc" matBadgeOverlap="true" matBadgeColor="warn">
+                                        Documentos
+                                    </div>
+                                </div>
+                            </mat-list-item>
+                        </div>
+                    </mat-list>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Datos del recepcionista</h4>
+                <div class="form-group row mr-1 ml-1 justify-content-center">
+                    <div class="col-lg-12 text-center" align="left">
+
+                        <form [formGroup]="form_firma">
+
+                            <mat-form-field class="col-sm-6 col-lg-6 mt-3">
+                                <input type="text" class="text-center" [formControl]="firma_nombre_fc" matInput placeholder="Nombre" autocomplete="off">
+                                <mat-error *ngIf="firma_nombre_fc.invalid" class="text-center">{{getRequiredErrorMessageForm3('firma_nombre')}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-sm-6 col-lg-6 mt-3 mb-1">
+                                <input type="text" class="text-center" [formControl]="firma_apellido_fc" matInput placeholder="Apellido" autocomplete="off">
+                                <mat-error *ngIf="firma_apellido_fc.invalid" class="text-center">{{getRequiredErrorMessageForm3('firma_apellido')}}</mat-error>
+                            </mat-form-field>
+
+
+                        </form>
+                        <button *ngIf="!btnVerFirma" class="mt-2 text-center" mat-flat-button color="primary" matTooltip="Generar firma" (click)="openDialog()"><i class="fas fa-file-signature"></i></button>
+
+                        <button *ngIf="btnVerFirma" class="mt-2" mat-flat-button color="primary" matTooltip="Visualizar firma" (click)="openDialogFirma()"><i class="fas fa-eye"></i></button>
+                        <button *ngIf="btnVerFirma" class="ml-2 mt-2" mat-flat-button color="warn" matTooltip="Eliminar firma" (click)="eliminarFirma()"><i class="fas fa-trash-alt"></i></button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Acciones del recibo</h4>
+                <div class="form-group row mr-3 ml-3 justify-content-center">
+
+                    <mat-form-field class="col-lg-12 mt-3">
+                        <input type="text" [(ngModel)]="observaciones" matInput placeholder="Observaciones" autocomplete="off">
+                    </mat-form-field>
+
+                    <div class="col-md-6 mt-3 text-left">
+                        <mat-checkbox color="warn" [(ngModel)]="enviar_email">Enviar al e-mail</mat-checkbox>
+                        <!-- <button class="ml-1 mt-2" mat-flat-button color="warn">Enviar e-mail al generar</button> -->
+                    </div>
+
+                    <div class="col-md-6 text-right">
+                        <button *ngIf="btnGenerar" class="ml-1 mt-2" mat-flat-button color="warn" (click)="mostrarDatosEmpresa()">Generar recibo</button>
+                        <button *ngIf="!btnGenerar" class="ml-1 mt-2" mat-flat-button color="warn" [disabled]=true>Generando <i class="fas fa-spin fa-sync-alt"></i></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

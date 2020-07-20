@@ -1,0 +1,209 @@
+<div class="row animated fadeIn">
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <form [formGroup]="form_mov">
+                    <h4 class="box-title mb-0 titlesections p-2 puntero" align="center" data-toggle="collapse" href="#form_registro">
+                        <button mat-mini-fab class="addbutton" style="width: 1px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon></button> Información de registro
+                    </h4>
+
+                    <div id="form_registro" class="collapse show">
+
+                        <div class="form-group row mr-3 ml-3 mb-0 justify-content-center">
+
+                            <mat-form-field class="col-10 mt-4 pr-3 pl-0">
+                                <input matInput [(ngModel)]="codigo" [formControl]="mov_codigo_fc" placeholder="Código" type="text" autocomplete="off" class="text-center">
+                                <mat-error *ngIf="mov_codigo_fc.invalid" class="text-center">{{getRequiredErrorMessage('mov_codigo')}}</mat-error>
+                            </mat-form-field>
+
+                            <div class="col-1 pl-0" style="margin-top: 35px;">
+                                <button mat-stroked-button color="primary" (click)="openDialogCodigo()" style="font-size: 19px; min-width: 34px; max-height: 36px; padding-right: 8px; padding-left: 8px; border-color: #757575;"><i class="fas fa-vector-square"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row mr-3 ml-3 mb-0 justify-content-center">
+
+                            <mat-form-field class="col-md-6 mt-4">
+                                <mat-label>Accion</mat-label>
+                                <mat-select [ngModel]="set_move_type" [disabled]="habilitar_accion" [formControl]="mov_accion_fc" class="text-center">
+                                    <mat-option value="0">Salida</mat-option>
+                                    <mat-option value="1">Entrada</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="mov_accion_fc.invalid" class="text-center">{{getRequiredErrorMessage('mov_accion')}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-md-6 mt-4">
+                                <mat-label>Unidad</mat-label>
+                                <mat-select [ngModel]="set_type" [disabled]="habilitar_unidad" [formControl]="mov_tipo_prod_fc" class="text-center">
+                                    <mat-option value="Caja">Caja</mat-option>
+                                    <mat-option value="Documento">Documento</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="mov_tipo_prod_fc.invalid" class="text-center">{{getRequiredErrorMessage('mov_tipo_prod')}}</mat-error>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="form-group row mr-3 ml-3 mb-0 justify-content-center">
+
+                            <mat-form-field class="col-lg-12 mt-4">
+                                <input matInput [formControl]="mov_asociacion_fc" placeholder="Asociación" type="text" autocomplete="off" class="text-center">
+                                <mat-error *ngIf="mov_asociacion_fc.invalid" class="text-center">{{getRequiredErrorMessage('mov_asociacion')}}</mat-error>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="form-group row mr-3 ml-3 mb-0 justify-content-center">
+
+                            <mat-form-field class="col-lg-12 mt-4">
+                                <input matInput [formControl]="mov_observacion_fc" placeholder="Observacion" type="text" autocomplete="off" class="text-center">
+                                <mat-error *ngIf="mov_observacion_fc.invalid" class="text-center">{{getRequiredErrorMessage('mov_observacion')}}</mat-error>
+                            </mat-form-field>
+
+                        </div>
+
+                        <hr>
+
+                        <button type="button" class="ml-2 mb-2 mt-2" mat-flat-button color="warn" matTooltip="Agregar renglón" (click)="agregarRenglon( codigo )"><i class="fas fa-plus-circle"></i> Agregar a la tabla</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body shadowgral pb-4" align="center">
+                <h4 class="box-title mb-0 titlesections p-2 puntero" align="center" data-toggle="collapse" href="#form_contenido">
+                    <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon>
+                  </button> Tabla de pendientes
+
+                </h4>
+
+                <div id="form_contenido" class="collapse show">
+                    <div class="col-9 text-center mt-5 mb-4" *ngIf="array_renglones_entrada.length == 0 && array_renglones_salida.length == 0">
+
+                        Sin contenido.
+
+                    </div>
+                    <div class="row text-left">
+
+                        <div *ngIf='array_renglones_entrada.length != 0' class="col-lg-12 pl-3 pr-3 pt-3">
+                            <!-- <span class="ml-3"><b>Entrada</b></span> -->
+                            <span class="titleborder pt-1 pb-1 pr-3 pl-3">Entrada</span>
+                            <div class="pull-right">
+                                <span class="titleborder pt-1 pb-1 pr-3 pl-3 ml-3 ">{{array_renglones_entrada.length}}</span>
+                            </div>
+                            <hr class="mb-0 mt-2">
+                        </div>
+
+                        <div class="col-lg-12 pl-3 pr-3 pt-3" *ngFor="let cont of array_renglones_entrada; let j = index">
+                            <div [ngClass]="(cont.estado.length == 0) ? 'titleborder' : 'titlebordererror' " class="card-body shadowgral">
+                                
+                                <a href="#List-{{ j }}" data-toggle="collapse">{{ cont.nom_empresa }} - {{ cont.num_etiqueta }} - {{ cont.lote }}  </a>
+                                <i [ngClass]="(cont.movimiento.tipo_prod == 'Caja') ? 'fas fa-box' : 'fas fa-file-alt' " class="pull-right" [ngStyle]="{color:(cont.estado.length == 0)?'#1e88e5':'#ec6262'}" style="font-size: 21px;"></i>
+                                
+                                <div id="List-{{ j }}" class="collapse" align="center">
+                                    <hr>
+
+                                    <div *ngIf="!(cont.estado.length == 0)" class="form-group row text-center mr-1 ml-1 mt-1 mb-0" align="center">
+                                        <div class="col-12 text-center alert alert-danger" role="alert">
+                                            {{cont.estado}}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row text-center mr-1 ml-1 mt-1 mb-0">
+
+                                        <mat-form-field class="col-6">
+                                            <input matInput [disabled]="true" placeholder="Asociación" type="text" autocomplete="off" class="text-center" [ngModel]="cont.movimiento.asociacion">
+                                        </mat-form-field>
+
+                                        <mat-form-field class="col-6">
+                                            <input matInput [disabled]="true" placeholder="Observación" type="text" autocomplete="off" class="text-center" [ngModel]="cont.movimiento.observacion">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    <div class="form-group row text-center mt-2" style="margin-bottom: 0px">
+
+                                        <div class="col-12 text-center">
+                                            <button type="button" class="ml-2 mb-2 mt-2 pull-left" mat-flat-button color="primary" matTooltip="Ver contenido" (click)="vercontenidos( cont.movimiento.codigo, cont.nom_empresa )"><i class="fas fa-bars"></i> Contenido</button>
+
+                                            <swal #deleted text="¿Desea eliminar este contenido?" type="warning" showCancelButton="true" cancelButtonText="Cancelar" (confirm)="eliminarContenido( 'entrada', j )">
+                                            </swal>
+
+                                            <button type="button" class="mb-2 mt-2 pull-right" [swal]="deleted" mat-flat-button color="warn" matTooltip="Eliminar de la tabla"><i class="fas fa-trash-alt" ></i> Eliminar</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf='array_renglones_salida.length != 0' class="col-lg-12 pl-3 pr-3 pt-3">
+                            <!-- <span class="ml-3">Salida</span> -->
+                            <span class="titleborder pt-1 pb-1 pr-3 pl-3">Salida</span>
+                            <div class="pull-right">
+                                <span class="titleborder pt-1 pb-1 pr-3 pl-3 ml-3">{{array_renglones_salida.length}}</span>
+                            </div>
+                            <!-- <span matBadge="{{array_renglones_salida.length}}" matBadgeOverlap="false" matBadgeColor="#1e88e5" class="ml-3">Salida</span>                         -->
+                            <hr class="mb-0 mt-2">
+                        </div>
+
+                        <div class="col-lg-12 pl-3 pr-3 pt-3" *ngFor="let cont of array_renglones_salida; let h = index">
+                            <div [ngClass]="(cont.estado.length == 0) ? 'titleborder' : 'titlebordererror' " class="card-body shadowgral">
+                                <!-- <span>Codigo: </span>
+                                <a href="#List-{{ h + 500 }}" data-toggle="collapse">{{ cont.movimiento.codigo }} </a> -->
+                                <a href="#List-{{ h + 500 }}" data-toggle="collapse">{{ cont.nom_empresa }} - {{ cont.num_etiqueta }} - {{ cont.lote }}  </a>
+                                <i [ngClass]="(cont.movimiento.tipo_prod == 'Caja') ? 'fas fa-box' : 'fas fa-file-alt' " class="pull-right" [ngStyle]="{color:(cont.estado.length == 0)?'#1e88e5':'#ec6262'}" style="font-size: 21px;"></i>
+                                <div id="List-{{ h + 500 }}" class="collapse" align="center">
+                                    <hr>
+
+                                    <div *ngIf="!(cont.estado.length == 0)" class="form-group row text-center mr-1 ml-1 mt-1 mb-0" align="center">
+                                        <div class="col-12 text-center alert alert-danger" role="alert">
+                                            {{cont.estado}}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row text-center mr-1 ml-1 mt-1 mb-0">
+
+                                        <mat-form-field class="col-6">
+                                            <input matInput [disabled]="true" placeholder="Asociación" type="text" autocomplete="off" class="text-center" [ngModel]="cont.movimiento.asociacion">
+                                        </mat-form-field>
+
+                                        <mat-form-field class="col-6">
+                                            <input matInput [disabled]="true" placeholder="Observación" type="text" autocomplete="off" class="text-center" [ngModel]="cont.movimiento.observacion">
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    <div class="form-group row text-center mt-2" style="margin-bottom: 0px">
+
+                                        <div class="col-12 text-center">
+                                            <button type="button" class="ml-2 mb-2 mt-2 pull-left" mat-flat-button color="primary" matTooltip="Ver contenido" (click)="vercontenidos( cont.movimiento.codigo, cont.nom_empresa )"><i class="fas fa-bars"></i> Contenido</button>
+                                            
+                                            <swal #deleted text="¿Desea eliminar este contenido?" type="warning" showCancelButton="true" cancelButtonText="Cancelar" (confirm)="eliminarContenido( 'salida', h )">
+                                            </swal>
+                                            <button type="button" class="mb-2 mt-2 pull-right" [swal]="deleted" mat-flat-button color="warn" matTooltip="Eliminar de la tabla"><i class="fas fa-trash-alt" ></i> Eliminar</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="array_renglones_salida.length != 0 || array_renglones_entrada.length != 0" class="col-lg-12 pl-3 pr-3 pt-3 text-center">
+                            <hr>
+                            <button type="button" class="ml-2 mb-2 mt-2" mat-flat-button color="primary" matTooltip="Insertar registros" (click)="insertarRegistros()"><i class="fas fa-plus-circle"></i> Registrar movimientos</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

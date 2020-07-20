@@ -1,0 +1,93 @@
+
+<h4 class="box-title mb-0 titlesections p-3 pl-2 mt-3" align="center">{{ empresa }} - {{ etiqueta }}</h4>
+
+<div class="row animated fadeIn">
+
+    <div class="col-lg-11 center-block" style="float: none; margin: 0 auto;">
+
+        <div id="estanteria" class="collapse show mt-3">
+
+            <mat-form-field class="col-lg-4 col-sm-4">
+                <mat-select (selectionChange)="cambioDeposito( $event.value );" [(ngModel)]="depositoSeleccionado" placeholder="Deposito" class="text-center">
+                    <mat-option value="Napolitanos">Napolitanos</mat-option>
+                    <mat-option value="Napolitanos 2">Napolitanos 2</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-4 col-sm-4">
+                <mat-select (selectionChange)="cambioEstante( $event.value )" [(ngModel)]="estanteSeleccionado" placeholder="Nombre" class="text-center">
+                    <mat-option *ngFor="let estante of estantes" [value]="estante.nombre">{{ estante.nombre }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col-lg-4 col-sm-4">
+                <mat-select (selectionChange)="cambioPosicion( $event.value )" [(ngModel)]="posicionSeleccionado" placeholder="Posicion" class="text-center">
+                    <mat-option *ngFor="let pos of posiciones" [value]="pos.posicion">{{ pos.posicion }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        
+        <div class="card mb-2" *ngIf="armar.length > 0" style="max-width: 900px;">
+
+            <div id="invisible" class="row text-center center-block mr-1 ml-1" style="overflow-x: auto;">
+
+                <div *ngFor="let item of armar.slice().reverse()" class="center-block" style="float: none; margin: 0 auto;">
+                    <div class="row m-2 text-center" style="width: 760px">
+                        <div *ngFor="let punto of item" class="espacio borde" [title]="punto.nombre" [style.background]="punto.color" [id]="punto._id" [class.puntero]="punto.color == '#ec6262'" (click)="selectBox( punto );">
+                            <!-- <button *ngIf="punto.color == '#41ce5b'" mat-raised-button color="primary" class="btnVisualizarCaja"><mat-icon style="font-size: 22px !important;">remove_red_eye</mat-icon></button> -->
+                            <span [ngClass]="(punto.prestamo == 1)?'circulo2':'circulo'">{{punto.nombre | nombreLugar:'-':2 }}</span>
+                            <div *ngIf="punto.color == '#41ce5b'" class="oldcod">{{punto.numero_caja}}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mt-3" *ngIf="armar.length <= 0" style="max-width: 900px;">
+
+            <div class="estanteSinSeleccionar text-center p-4">
+                Aún no se ha seleccionado un estante.
+            </div>
+
+        </div>
+
+        <div class="collapse show mt-3" align="center">
+            <form [formGroup]="form_posicion">
+
+                <mat-form-field class="col-lg-4 col-sm-4 mb-2">
+                    <input matInput [formControl]="posicion_fc" name="posicion" placeholder="Posicion" type="text" [readonly]="true" autocomplete="off" class="text-center">
+                    <mat-error *ngIf="posicion_fc.invalid" class="text-center">{{getRequiredErrorMessage('posicion')}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-lg-4 col-sm-4 mb-2">
+                    <input matInput [formControl]="n_caja_fc"  name="n_caja" placeholder="N° de caja" type="text" autocomplete="off" class="text-center">
+                    <mat-error *ngIf="n_caja_fc.invalid" class="text-center">{{getRequiredErrorMessage('n_caja')}}</mat-error>
+                </mat-form-field>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row mt-2 pb-3">
+    <div class="col-6">
+        <button mat-flat-button color="primary" (click)="onNoClick()" cdkFocusInitial>
+            Cancelar
+        </button>
+    </div>
+    <div class="col-6 pull-right">
+        <button *ngIf="!addpositionspinner" style="float: right;" mat-flat-button color="primary" (click)="guardarPosicion()">
+            Aplicar
+        </button>
+        <button *ngIf="addpositionspinner" style="float: right;" mat-flat-button color="primary">
+            Aplicar &nbsp;
+            <i class="fas fa-circle-notch fa-spin" style="margin-bottom:2px;"></i>
+        </button>
+    </div>
+</div>

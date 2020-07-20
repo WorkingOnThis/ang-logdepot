@@ -1,0 +1,37 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body shadowgral">
+                <!-- 
+                <mat-form-field appearance="outline">
+                    <mat-label>Filtro general</mat-label>
+                    <input matInput type="text" id="filter-text-box" placeholder="Filtro general" [(ngModel)]="quickSearchValue" />
+                </mat-form-field> -->
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field class="mt-1 ml-2">
+                            <input matInput type="text" id="filter-text-box" placeholder="Filtro general" [(ngModel)]="quickSearchValue" autocomplete="off" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <button mat-mini-fab class="mb-3 pull-right" style="margin-top: 11px;" color="warn" [matMenuTriggerFor]="menu">
+                            <mat-icon style="padding-top: 2px;">more_vert</mat-icon>
+                        </button>
+                    </div>
+
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="onBtnExport()">
+                            <mat-icon>assignment</mat-icon>
+                            <span>Descargar CSV</span>
+                        </button>
+                    </mat-menu>
+                </div>
+
+                <ag-grid-angular style="width: auto; height: 518px;" rowSelection='single' class="ag-theme-balham" [frameworkComponents]="frameworkComponents" [gridOptions]="gridOptions" [localeText]="localeText" [pagination]="true" [paginationPageSize]="paginationPageSize"
+                    [quickFilterText]="quickSearchValue" (gridReady)="onGridready( $event )" [floatingFilter]="true" [rowData]="rowData" [columnDefs]="columnDefs">
+                </ag-grid-angular>
+
+            </div>
+        </div>
+    </div>
+</div>

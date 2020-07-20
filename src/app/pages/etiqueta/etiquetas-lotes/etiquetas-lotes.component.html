@@ -1,0 +1,35 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body shadowgral">
+                <div class="row">
+
+                    <div class="col-12">
+
+                        <mat-form-field class="ml-2 mr-2">
+                            <input matInput type="text" id="filter-text-box" placeholder="Filtro general" [(ngModel)]="quickSearchValue" autocomplete="off" />
+                        </mat-form-field>
+
+                        <!-- <button mat-stroked-button color="primary" (click)="openDialogCodigo()" style="font-size: 19px; min-width: 34px; padding-right: 8px; padding-left: 8px; border-color: #757575;"><i class="fas fa-vector-square"></i></button> -->
+
+                        <!-- <button mat-mini-fab class="pull-right" style='margin-top: 10px' color="warn" [matMenuTriggerFor]="menu">
+                            <mat-icon style="padding-top: 2px;">more_vert</mat-icon>
+                        </button> -->
+                    </div>
+
+                    <!-- <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="onBtnExport()">
+                            <mat-icon>assignment</mat-icon>
+                            <span>Descargar CSV</span>
+                        </button>
+                    </mat-menu> -->
+                </div>
+
+                <ag-grid-angular style="width: 100%; height: 518px;" rowSelection='single' class="ag-theme-balham" [frameworkComponents]="frameworkComponents" [enableCellTextSelection]="true" [gridOptions]="gridOptions" [localeText]="localeText" [pagination]="true" [paginationPageSize]="paginationPageSize"
+                    [quickFilterText]="quickSearchValue" (gridReady)="onGridready( $event )" [floatingFilter]="true" [rowData]="rowData" [columnDefs]="columnDefs">
+                </ag-grid-angular>
+
+            </div>
+        </div>
+    </div>
+</div>

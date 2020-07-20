@@ -1,0 +1,52 @@
+<h1 mat-dialog-title align="center">Contenido de {{ data.nombre }}</h1>
+<div mat-dialog-content class="text-center" style="padding-left: 10px; padding-right: 10px;">
+    <!-- <p>What's your favorite animal?</p>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.firma">
+    </mat-form-field> -->
+
+    <!-- <div *ngIf="!data.btnVerFirma" id="signature-pad" class="m-signature-pad">
+        <div class="m-signature-pad-body">
+            <signature-pad [options]="signaturePadOptions"></signature-pad>
+        </div>
+    </div>
+
+    <div *ngIf="data.btnVerFirma">
+        <img [src]="sanitize(data.imgDir)" alt="">
+    </div> -->
+
+    <mat-form-field class="col-md-6 col-lg-6 col-xl-4 mt-4">
+        <input matInput placeholder="Empresa" class="text-center" type="text" [disabled]="true" [value]="data.caja.empresa">
+    </mat-form-field>
+
+    <mat-form-field class="col-md-6 col-lg-6 col-xl-4 mt-4">
+        <input matInput placeholder="Código" class="text-center" type="text" [disabled]="true" [value]="data.caja.codigo">
+    </mat-form-field>
+
+    <mat-form-field class="col-md-6 col-lg-6 col-xl-4 mt-4">
+        <input matInput #num_caja placeholder="Número de caja" class="text-center" type="text" [value]="data.caja.n_caja">
+    </mat-form-field>
+
+    <mat-form-field class="col-md-6 col-lg-6 col-xl-4 mt-4">
+        <input matInput placeholder="Tipo de caja" class="text-center" type="text" [disabled]="true" [value]="data.caja.tipo_de_caja">
+        <mat-hint *ngIf="data.caja.precinto != null" align="center">Precinto: {{ data.caja.precinto }}</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="col-md-6 col-lg-6 col-xl-4 mt-4">
+        <input matInput placeholder="Fecha de alta" class="text-center" type="text" [disabled]="true" [value]="data.caja.fecha_alta | date">
+    </mat-form-field>
+
+    <mat-form-field class="col-md-6 col-lg-6 col-xl-4 mt-4">
+        <input matInput placeholder="Usuario" class="text-center" type="text" [disabled]="true" [value]="data.caja.id_usuario_alta ">
+    </mat-form-field>
+
+</div>
+<div mat-dialog-actions align="center" class="mt-2">
+    <div class="mb-2">
+        <button mat-button (click)="modificarNro()">Modificar</button>
+        <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
+        <!-- <button *ngIf="!data.btnVerFirma" mat-button (click)="eliminarFirma()">Borrar</button> -->
+        <!-- <button *ngIf="!data.btnVerFirma" mat-button (click)="generarFirma()">Generar</button> -->
+        <!-- <button *ngIf="!data.btnVerFirma" mat-button [mat-dialog-close]="data.firma">Confirmar</button> -->
+    </div>
+</div>

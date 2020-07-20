@@ -1,0 +1,160 @@
+<div class="row animated fadeIn">
+
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <form [formGroup]="forma">
+                    <h4 class="box-title mb-0 titlesections p-2 puntero" align="center" data-toggle="collapse" href="#form_registro">
+                        <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon></button> Información de registro
+                    </h4>
+
+                    <div id="form_registro" class="collapse show">
+
+                        <div class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                            <mat-form-field class="col-10 mt-4 pr-3 pl-0">
+                                <input [ngModel]="documentoGuardado.id_codigo" formControlName="id_codigo" matInput name="id_codigo" placeholder="Código" type="text" autocomplete="off" class="text-center">
+                            </mat-form-field>
+
+                            <div class="col-1 pl-0" style="margin-top: 35px;">
+                                <button mat-stroked-button color="primary" (click)="openDialogCodigo()" style="font-size: 19px; min-width: 34px; max-height: 36px; padding-right: 8px; padding-left: 8px; border-color: #757575;"><i class="fas fa-vector-square"></i></button>
+                            </div>
+
+                            <div class="col-11 text-center" *ngIf="forma.controls.id_codigo.errors && forma.controls.id_codigo.touched">
+                                <div *ngIf="forma.controls.id_codigo.errors.required" class="alerta text-danger">
+                                    Este campo es obligatorio.
+                                </div>
+                            </div>
+
+                            <div class="col-11 text-center" *ngIf="forma.controls.id_codigo.errors && forma.controls.id_codigo.touched">                            
+                                <div *ngIf="forma.controls.id_codigo.errors.existLabel" class="alerta text-danger">
+                                    Código incorrecto.
+                                </div>
+                            </div>
+
+                            <div class="col-11 text-center" *ngIf="forma.controls.id_codigo.errors && forma.controls.id_codigo.touched">                            
+                                <div *ngIf="forma.controls.id_codigo.errors.busyLabel" class="alerta text-danger">
+                                    Este código ya ha sido tomado.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                            <mat-form-field class="col-12">
+                                <input [ngModel]="documentoGuardado.id_solicitud" matInput formControlName="id_solicitud" placeholder="Solicitud" type="text" class="text-center">
+                            </mat-form-field>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row mr-3 ml-3 justify-content-center">
+                            <div class="col-12 justify-content-center">
+                                <button class="btn btn-info botonaguardar pull-left" type="button" [routerLink]="['/documentos/listar-documentos']">Volver</button>
+                                <button *ngIf="btnActualizar" class="btn btn-info botonaguardar pull-right" type="button" [disabled]="forma.invalid || contenido.invalid || forma.controls.id_codigo.status == 'PENDING'" (click)="submitForm()">Actualizar</button>
+                                <button *ngIf="!btnActualizar" class="btn btn-info botonaguardar pull-right" type="button" [disabled]=true>Actualizar <i class="fas fa-spin fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-2 puntero" align="center" data-toggle="collapse" href="#form_contenido">
+                    <button mat-mini-fab class="addbutton" style="width: 3px; visibility: hidden;"><mat-icon style="font-size: 1px; padding: 0px; margin: 0px;">add</mat-icon>
+                    </button> Contenido
+
+                </h4>
+
+                <form [formGroup]="contenido">
+                    <div id="form_contenido" class="collapse show">
+
+                        <div class="form-group row text-center mr-3 ml-3 mt-2" style="margin-bottom: 0px">
+
+                            <mat-form-field class="col-12 mt-3 mb-2">
+                                <input matInput [ngModel]="contenidoGuardado.txt_contenido" formControlName="txt_contenido" name="txt_contenido" placeholder="Contenido" type="text" autocomplete="off" class="text-center">
+                                <mat-error *ngIf="contenido.controls.txt_contenido.errors && contenido.controls.txt_contenido.touched" class="text-center">
+                                    <div *ngIf="contenido.controls.txt_contenido.errors.required" class="alerta text-danger">
+                                        Campo obligatorio.
+                                    </div>
+                                </mat-error>
+                            </mat-form-field>
+
+                            <!-- <div class="col-9 text-center" *ngIf="forma.controls.txt_contenido.errors && forma.controls.txt_contenido.touched">
+                    <div *ngIf="forma.controls.txt_contenido.errors.required" class="alerta text-danger">
+                        Este campo es obligatorio.
+                    </div>
+                </div> -->
+
+                            <mat-form-field class="col-6">
+                                <mat-select [ngModel]="contenidoGuardado.id_area" formControlName="id_area" name="id_area" (selectionChange)="cargarTipos( $event.value )" placeholder="Area" class="text-center">
+                                    <mat-option *ngFor="let area of areasola" [value]="area._id">{{ area.nombre }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field class="col-6">
+                                <mat-select [ngModel]="contenidoGuardado.id_tipo" formControlName="id_tipo" name="id_tipo" placeholder="Tipo" class="text-center">
+                                    <mat-option *ngFor="let tipo of tipoSoloSelected" [value]="tipo._id">{{ tipo.nombre }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="form-group row text-center ml-0 mr-0" style="margin-bottom: 0px;">
+
+                            <div class="row text-center mr-3 ml-3">
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput [ngModel]="contenidoGuardado.desde_n" class="text-center" formControlName="desde_n" placeholder="Desde Nº" type="number">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput [ngModel]="contenidoGuardado.hasta_n" class="text-center" formControlName="hasta_n" placeholder="Hasta Nº" type="number">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput [ngModel]="contenidoGuardado.desde_letra" class="text-center" formControlName="desde_letra" placeholder="Desde letra" type="text">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6 col-sm-3">
+                                    <input matInput [ngModel]="contenidoGuardado.hasta_letra" class="text-center" formControlName="hasta_letra" placeholder="Hasta letra" type="text">
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6">
+                                    <input class="text-center" [ngModel]="contenidoGuardado.desde_fecha" matInput [matDatepicker]="picker1" placeholder="Desde fecha" formControlName="desde_fecha">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+
+                                <mat-form-field class="col-6">
+                                    <input class="text-center" [ngModel]="contenidoGuardado.hasta_fecha" matInput [matDatepicker]="picker2" placeholder="Hasta fecha" formControlName="hasta_fecha">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row text-center mr-3 ml-3">
+
+                            <mat-form-field class="col-12">
+                                <input [ngModel]="contenidoGuardado.observacion" matInput formControlName="observacion" placeholder="Observación" type="text">
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

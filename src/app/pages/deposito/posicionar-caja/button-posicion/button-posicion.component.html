@@ -1,0 +1,29 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+
+    <!-- 11-11 -->
+    <!-- <button mat-menu-item (click)="vercontenidos( params.node.data.codigo, params.node.data.empresa, params.node.rowIndex );"> -->
+
+    <button mat-menu-item (click)="vercontenidos( params.node.data.codigo, params.node.data.empresa);">
+      <mat-icon>find_in_page</mat-icon>
+      <span>Ver contenido &nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </button>
+  
+    <div *ngIf="params.node.data.fecha_baja == null && params.node.data.ubicacion == null">
+        <button mat-menu-item (click)="posicionar( params.node.data._id, params.node.data.codigo, params.node.data.empresa, params.node.rowIndex );">
+          <mat-icon>apps</mat-icon>
+          <span>Posicionar &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </button>
+    </div>
+
+    <div *ngIf="params.node.data.fecha_baja != null">
+        <button mat-menu-item (click)="infoAnulado( params.node.data );">
+          <mat-icon>info</mat-icon>
+          <span>Información &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </button>
+    </div>
+
+</mat-menu>

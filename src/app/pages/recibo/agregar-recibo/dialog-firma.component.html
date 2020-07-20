@@ -1,0 +1,26 @@
+<h1 mat-dialog-title align="center">Firma del receptor</h1>
+<div mat-dialog-content class="text-center" style="padding-left: 10px; padding-right: 10px;">
+    <!-- <p>What's your favorite animal?</p>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.firma">
+    </mat-form-field> -->
+
+    <div *ngIf="!data.btnVerFirma" id="signature-pad" class="m-signature-pad">
+        <div class="m-signature-pad-body">
+            <signature-pad [options]="signaturePadOptions"></signature-pad>
+        </div>
+    </div>
+
+    <div *ngIf="data.btnVerFirma">
+        <img [src]="sanitize(data.imgDir)" alt="">
+    </div>
+
+</div>
+<div mat-dialog-actions align="center" class="mt-2">
+    <div class="mb-2">
+        <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
+        <button *ngIf="!data.btnVerFirma" mat-button (click)="eliminarFirma()">Borrar</button>
+        <button *ngIf="!data.btnVerFirma" mat-button (click)="generarFirma()">Generar</button>
+        <!-- <button *ngIf="!data.btnVerFirma" mat-button [mat-dialog-close]="data.firma">Confirmar</button> -->
+    </div>
+</div>

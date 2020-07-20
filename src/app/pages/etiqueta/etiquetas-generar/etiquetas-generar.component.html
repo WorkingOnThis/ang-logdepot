@@ -1,0 +1,168 @@
+<div class="row animated fadeIn">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <form [formGroup]="forma">
+                    <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Crear etiquetas</h4>
+
+                    <div class="form-group row mr-3 ml-3 mt-2 justify-content-center">
+
+                        <mat-form-field class="col-sm-12 mt-4">
+                            <mat-label>Empresa</mat-label>
+                            <mat-select [formControl]="id_empresa_fc">
+                                <mat-option *ngFor="let empresa of empresas" [value]="empresa._id">{{ empresa.nombre }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="id_empresa_fc.invalid" class="text-center">{{getRequiredErrorMessage('id_empresa')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-6 mt-4">
+                            <mat-label>Tipo</mat-label>
+                            <mat-select  [formControl]="tipo_fc">
+                                <mat-option value="Caja">Caja</mat-option>
+                                <mat-option value="Documento">Documento</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="tipo_fc.invalid" class="text-center">{{getRequiredErrorMessage('tipo')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6 col-lg-6 mt-4">
+                            <input [formControl]="cantidad_fc" type="number" min="1" max="40" matInput name="cantidad" placeholder="Cantidad" autocomplete="off" class="text-center">
+                            <mat-error *ngIf="cantidad_fc.invalid" class="text-center">{{getRequiredErrorMessage('cantidad')}}</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                </form>
+
+                <button type="button" *ngIf="!addregisterspinner" [disabled]="forma.invalid" class="ml-2 mb-2 mt-2" mat-flat-button color="primary" (click)="submitForma()">Generar &nbsp;<i class="fas fa-plus-circle"></i></button>
+                <button type="button" *ngIf="addregisterspinner" class="ml-2 mb-2 mt-2" mat-flat-button color="primary" (click)="submitForma()">Generar &nbsp;<i class="fas fa-circle-notch fa-spin" style="margin-bottom:2px;"></i></button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Etiquetas generadas</h4>
+                <br>
+                <div class="row mr-2 ml-2 justify-content-center">
+
+                    <mat-form-field class="col-sm-4 col-lg-3 mt-1">
+                        <mat-select (selectionChange)="cambioLote( $event.value )" [(ngModel)]="loteSeleccionado" placeholder="Lote" class="text-center">
+                            <mat-option *ngFor="let lote of lotes" [value]="lote._id">{{ lote.numero }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-sm-3 col-lg-2 mt-1">
+                        <input [ngModel]="cantidadSeleccionada" type="number" matInput name="cantidad" placeholder="Cantidad" class="text-center"autocomplete="off">
+                    </mat-form-field>
+
+
+                    <mat-form-field class="col-sm-5 col-lg-4 mt-1">
+                        <mat-select [disabled]="true" (selectionChange)="cambioTipo( $event.value )" placeholder="Tipo de etiqueta" [value]="defaulTipo" class="text-center">
+                            <mat-option value="barras">Código de barras</mat-option>
+                            <mat-option value="qr">Código QR</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- <div class="col-3 mt-4">
+                        <mat-checkbox>Lote impreso</mat-checkbox>
+                    </div> -->
+                </div>
+
+                <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="valorin"></ngx-qrcode> -->
+                <!-- <div *ngIf="!barra" style="overflow: auto;" align="center">
+                    <div class="row">
+                        <div *ngFor="let etiqueta of etiquetas_vista; let index = index" id="print-section" style="margin-bottom: 10px;">
+                            <div class="col-6">
+                                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin-right: 10px;">
+                                    <ngx-qrcode qrc-element-type="url " [qrc-value]="etiqueta._id"></ngx-qrcode>
+                                    <div style="vertical-align: baseline">
+                                        <img src="../../../../assets/images/logdepotbyn.jpg " style="width: 180px; height: 70px; text-align: left; " alt=" ">
+                                        <p style="margin-left: 20px; font-weight: bold; font-color: black; "> {{ etiqueta._id }} <br> <span> 1-1-12-04-19 </span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- 
+                <div *ngIf="barra" style="overflow: auto;" align="center">
+
+                    <div *ngFor="let etiqueta of etiquetas_vista; let index = index">
+
+                        <div [ngClass]="(index %2 == 0)?'col-6 derecha':'col-6 izquierda'" style="text-align: center;">
+                            <div>
+                                <img src="../../../../assets/images/logdepotbyn.jpg" style="width: 180px; height: 70px; text-align: left; display:inline-block;" alt="">
+                                <span style="maring-top: 20px; font-weight: bold; font-color: black; display:inline-block;"> 1-1-0-0 </span>
+                            </div>
+                            <ngx-barcode [bc-width]="1.3" [bc-margin-top]="2" [bc-height]="60" [bc-value]="etiqueta._id" [bc-display-value]="true"></ngx-barcode>
+                        </div>
+
+                    </div>
+
+                </div> -->
+
+
+                <div *ngIf="barra">
+                    <div id="invisible" class="row center-block mt-3 justify-content-center" style="overflow-x: auto; margin-left: 13px; margin-right: 13px;">
+
+                        <div class="col-12" style="float: none; margin: 0 auto; padding-right: 0px; padding-left: 0px;">
+                            <div class="row m-2 page-break" style="width: 805px" id="print-section">
+
+                                <div *ngFor="let etiqueta of etiquetas_vista; let index = index" class="etiqueta" align="center">
+                                    <div class="row justify-content-center">
+                                        <div class="col-12">
+                                            <img src="../../../../assets/images/logdepotbyn.jpg" style="width: 120px; z-index: 1000;" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <span style="width: 180px; font-size: 10px; color: black;">{{ etiqueta.empresa | uppercase }} {{ etiqueta.tipo | slice:0:1}}{{ etiqueta.num_etiqueta }}-{{ etiqueta.numero }}</span>
+                                    </div>
+                                    <ngx-barcode [bc-width]="0.7" [bc-font-size]="13" [bc-margin-top]="2" [bc-margin-bottom]="4" [bc-text-position]="top" [bc-height]="20" [bc-value]="etiqueta._id" [bc-display-value]="true"></ngx-barcode>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <button type="button" class="ml-2 mb-2 mt-4" mat-flat-button color="warn" (click)="print()">Imprimir &nbsp;<i class="fas fa-print"></i></button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- <div *ngIf="barra">
+    <div id="invisible" class="row center-block mt-3 justify-content-center" style="overflow-x: auto; margin: 25px">
+
+        <div class="col-12" style="float: none; margin: 0 auto; padding-right: 0px; padding-left: 0px;">
+            <div class="row m-2 page-break" style="width: 805px" id="print-section">
+                
+                <div *ngFor="let etiqueta of etiquetas_vista; let index = index" class="etiqueta" align="center">
+                    <div class="row justify-content-center">
+                        <div class="col-5 pr-0 mt-2">
+                            <span style="font-size: 10px;">
+                                <p class="mb-0">D-40</p>
+                                <p class="mb-0">D-40</p>
+                            </span>
+                        </div>
+                        <div class="col-7 pl-0">
+                            <img src="../../../../assets/images/logdepotbyn.jpg" class="pull-right" style="width: 120px; z-index: 1000;" alt="">
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <span style="width: 180px; font-size: 10px; color: black;">Ministerio de educacion</span>
+                    </div>
+                    <ngx-barcode [bc-width]="0.7" [bc-font-size]="13" [bc-margin-top]="2" [bc-margin-bottom]="4" [bc-text-position]="top" [bc-height]="20" [bc-value]="etiqueta._id" [bc-display-value]="true"></ngx-barcode>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div> -->

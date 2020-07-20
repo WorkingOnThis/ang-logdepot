@@ -1,0 +1,75 @@
+<h4 class="box-title mb-0 titlesections p-3 pl-2" align="center">{{ nombre_empresa }}</h4>
+
+
+<div mat-dialog-content class="text-center">
+
+    <form [formGroup]="forma" class="form-horizontal form-material mt-3">
+
+        <div class="pt-3 pb-4">
+
+                <div class="form-group row text-center" style="padding-left: 5%; padding-right: 5%; margin-bottom: 0px !important;">
+
+                    <mat-form-field class="col-12 form-label">
+                        <input [ngModel]="area.nombre_area" [formControl]="area_fc" matInput placeholder="Area" type="text" class="text-center" autocomplete="off">
+                        <mat-error *ngIf="area_fc.invalid" class="text-center">{{getRequiredErrorMessage('area')}}</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div class="form-group row text-center" style="padding-left: 5%; padding-right: 5%; margin-bottom: 0px !important;">
+
+                    <div class="col-12 input-group mt-2"  style="padding-left: 5%; padding-right: 5%;" formArrayName="tipos_existentes" *ngFor="let tipo of tipos; let m = index">
+
+                        <mat-form-field class="col-12 form-label">
+                            <input formControlName="tipos_existentes" [ngModel]="tipo.nombre_tipo" matInput placeholder="Tipos de documento" class="text-center" type="text" [formControlName]="m" autocomplete="off">
+                            <mat-error *ngIf="this.forma.controls.tipos_existentes.controls[m].errors" class="text-center">Campo requerido</mat-error>
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group row text-center" style="padding-left: 5%; padding-right: 5%;">
+
+                    <div class="col-12 input-group mt-2 pr-0"  style="padding-left: 5%; padding-right: 5%;" formArrayName="tipos" *ngFor="let tipo of forma.get('tipos')['controls']; let i = index">
+
+                        <mat-form-field class="col-10" style="padding-left: 0px;">
+                            <input formControlName="tipos" matInput placeholder="Tipos de documento" class="text-center" type="text" [formControlName]="i" autocomplete="off">
+                            <mat-error *ngIf="this.forma.controls.tipos.controls[i].errors" class="text-center">Campo requerido</mat-error>
+                        </mat-form-field>
+
+
+                        <button class="btn btn-danger" (click)="eliminartipos( i );" style="height: 45px;"><i class="fas fa-trash"></i></button>
+                        
+                    </div>
+
+                </div>
+                <div class="col-xs-12 text-center">
+
+                    <button type="button" class="btn btn-danger" (click)="agregartipos()">Tipo de documento <i class="fas fa-plus"></i></button>
+
+                </div>
+
+        </div>
+    </form>
+
+</div>
+
+<hr>
+
+<div class="row mt-2">
+    <div class="col-6">
+        <button mat-flat-button color="primary" (click)="onNoClick()" cdkFocusInitial>
+            Cancelar
+        </button>
+    </div>
+    <div class="col-6 pull-right">
+        <button *ngIf="!addsectionspinner" style="float: right;" [disabled]="forma.invalid" mat-flat-button color="primary" (click)="guardarArea()">
+            Actualizar
+        </button>
+        <button *ngIf="addsectionspinner" style="float: right;" mat-flat-button color="primary">
+            Actualizar &nbsp;
+            <i class="fas fa-circle-notch fa-spin" style="margin-bottom:2px;"></i>
+        </button>
+    </div>
+</div>

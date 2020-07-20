@@ -1,0 +1,96 @@
+<div class="row animated fadeIn">
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Empresa</h4>
+
+                <div class="form-group row text-center mr-3 ml-3 mt-4">
+                    <label class="col-md-5 form-label"><img class="w220" [src]="empresaSelec.img | imagen:'empresa'" ></label>
+                    <select (change)="cambioEmpresa( $event.target.value ); cargarAreas( $event.target.value )" name="empresa" class="col-md-7 form-control">
+                          <option default value="">Seleccione una empresa</option>
+                          <option *ngFor="let empresa of empresas" [value]="empresa._id">{{ empresa.nombre }}</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body shadowgral">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Agregar area</h4>
+                <form [formGroup]="forma" (ngSubmit)="guardarArea( empresaSelec._id )" class="form-horizontal form-material mt-3">
+                    <div class="formulario pt-5 pb-4">
+                        <div class="ml-4 mr-5">
+                            <div class="form-group row text-center">
+
+                                <label class="col-5 col-md-4 form-label"><strong>Area: </strong></label>
+                                <input formControlName="area" name="area" class="form-control col-7 col-md-8" type="text">
+
+                            </div>
+                            <div class="form-group row text-center">
+
+                                <div class="input-group mt-2" formArrayName="tipos" *ngFor="let tipo of forma.get('tipos')['controls']; let i = index">
+                                    <label class="col-5 col-md-4 form-label"><strong>Tipo de documento: </strong></label>
+                                    <input formControlName="tipo" name="tipo" class="form-control col-7 col-md-8" [formControlName]="i" type="text">
+                                    <button class="btn btn-danger ml-2" (click)="eliminartipos( i )"><i class="fas fa-trash"></i></button>
+                                </div>
+
+                            </div>
+                            <div class="col-xs-12 text-center">
+
+                                <button type="button" class="btn btn-danger" (click)="agregartipos()">Tipo de documento <i class="fas fa-plus"></i></button>
+
+                            </div>
+                            <br>
+                            <div class="col-xs-12 text-center">
+                                <button class="btn btn-info" type="submit"><i class="fas fa-save font-18"></i> Agregar Area</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body shadowgral" align="center">
+                <h4 class="box-title mb-0 titlesections p-3 pl-5" align="left">Secciones</h4>
+
+                <div class="row" *ngIf="areasola.length > 0">
+                    <div class="text-left col-lg-4 p-3" *ngFor="let area of areasola; let j = index">
+                        <div class="card-body shadowgral">
+                            {{ area.nombre }}
+
+                            <a href="#List-{{ j }}" class="has-arrow waves-effect waves-dark" data-toggle="collapse" style="float: right">Ver</a>
+
+                            <div id="List-{{ j }}" class="collapse">
+                                <hr>
+                                <div *ngFor="let tipo of tiposolo">
+                                    <div class="text-center" *ngIf='tipo.id_area == area._id'>
+                                        {{ tipo.nombre }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="areasola.length <= 0">
+
+                    <div class="col-lg-12 text-center"><br><br>No existen areas creadas en la empresa seleccionada.<br><br></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- [src]="empresa.img | imagen:'empresa'" -->

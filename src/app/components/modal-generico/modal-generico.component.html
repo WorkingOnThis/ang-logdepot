@@ -1,0 +1,19 @@
+<div class="fondo-negro animated fadeIn" tabindex="-1" role="dialog" [ngClass]="_modalGenericoService.oculto">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div style="margin: 10px 15px;">
+                <button type="button" (click)="cerrarModal()" class="close" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body" id="notificacion" style="text-align: center;"> {{_modalGenericoService.mensaje}} <br><br></div>
+
+            <div class="boton-aceptar-modal">
+                <button type="button" class="btn btn-info" (click)="cerrarModal()"> Aceptar </button>
+            </div>
+
+        </div>
+    </div>
+</div>
